@@ -5,17 +5,17 @@
 <title>CoverEdge45 – Live Cricket</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- HLS PLAYER -->
-<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-
 <style>
 body{
   margin:0;
   font-family:Arial, Helvetica, sans-serif;
   background:#06162e;
   color:#fff;
+  -webkit-user-select:none;
   user-select:none;
 }
+
+/* POPUP */
 .popup{
   position:fixed;
   inset:0;
@@ -32,7 +32,8 @@ body{
   text-align:center;
   max-width:320px;
 }
-.popup-box a,.popup-box button{
+.popup-box a,
+.popup-box button{
   display:block;
   width:100%;
   margin-top:12px;
@@ -45,6 +46,8 @@ body{
 }
 .popup-join{background:#1ea7ff;color:#fff;}
 .popup-done{background:#133d78;color:#fff;}
+
+/* TOP BAR */
 .top-bar{
   max-width:950px;
   margin:15px auto;
@@ -54,6 +57,8 @@ body{
   font-weight:bold;
   border-radius:12px;
 }
+
+/* PLAYER */
 .player-wrap{
   max-width:950px;
   margin:0 auto;
@@ -61,11 +66,13 @@ body{
   border-radius:14px;
   overflow:hidden;
 }
-video{
+.player-wrap iframe{
   width:100%;
   height:55vh;
-  background:black;
+  border:none;
 }
+
+/* SECTIONS */
 .section{
   max-width:950px;
   margin:15px auto;
@@ -77,6 +84,13 @@ video{
   justify-content:center;
   flex-wrap:wrap;
 }
+.section h3{
+  width:100%;
+  text-align:center;
+  margin:0 0 8px;
+}
+
+/* BUTTONS */
 .btn{
   background:#1ea7ff;
   color:#fff;
@@ -88,6 +102,8 @@ video{
   cursor:pointer;
 }
 .btn.secondary{background:#133d78;}
+
+/* BOTTOM */
 .banner{
   max-width:950px;
   margin:20px auto;
@@ -105,13 +121,11 @@ video{
 </style>
 </head>
 
-<body oncontextmenu="return false">
-
 <!-- POPUP -->
 <div class="popup" id="popup">
   <div class="popup-box">
     <h2>Welcome 👋</h2>
-    <p>Join our Telegram channel</p>
+    <p>Join our Telegram channel for live updates</p>
     <a class="popup-join" href="https://t.me/CoverEdge45" target="_blank">
       Join @CoverEdge45
     </a>
@@ -119,18 +133,35 @@ video{
   </div>
 </div>
 
-<div class="top-bar">CoverEdge45 • Live Cricket</div>
+<body oncontextmenu="return false">
+
+<!-- TOP -->
+<div class="top-bar">CoverEdge45 • TNT Sports</div>
 
 <!-- PLAYER -->
 <div class="player-wrap">
-  <video id="video" controls autoplay muted playsinline></video>
+  <iframe 
+    src="https://cricketstan.github.io/TNT-1/" 
+    allowfullscreen
+    allow="autoplay; encrypted-media">
+  </iframe>
 </div>
 
+<!-- JOIN -->
 <div class="section">
+  <h3>⚡️ Join Telegram For Live Updates</h3>
   <a class="btn" href="https://t.me/CoverEdge45" target="_blank">Join Telegram</a>
-  <a class="btn secondary" href="https://t.me/CoverEdgelinks" target="_blank">All Channels</a>
+  <a class="btn secondary" href="https://t.me/CoverEdgelinks" target="_blank">View All Channels</a>
 </div>
 
+<!-- SHARE -->
+<div class="section">
+  <h3>❤️ Share & Support</h3>
+  <button class="btn" onclick="sharePage()">Share Page</button>
+  <button class="btn secondary" onclick="copyLink()">Copy Link</button>
+</div>
+
+<!-- BOTTOM -->
 <a href="https://t.me/CoverEdge45" target="_blank" style="text-decoration:none;color:inherit">
   <div class="banner">
     <img src="https://telegram.org/img/t_logo.png">
@@ -139,19 +170,15 @@ video{
 </a>
 
 <script>
-const video = document.getElementById("video");
-const m3u8 = "http://7igyx9fm.ukminlt.org/iptv/QV9B3Q26PP49RMV53WP4A7FT/19146/index.m3u8";
-
-if (Hls.isSupported()) {
-  const hls = new Hls();
-  hls.loadSource(m3u8);
-  hls.attachMedia(video);
-  hls.on(Hls.Events.MANIFEST_PARSED, () => video.play());
-} else if (video.canPlayType("application/vnd.apple.mpegurl")) {
-  video.src = m3u8;
-  video.play();
+function copyLink(){
+  navigator.clipboard.writeText(location.href);
+  alert("Link copied!");
 }
-
+function sharePage(){
+  if(navigator.share){
+    navigator.share({title:"Live Cricket – CoverEdge45",url:location.href});
+  }
+}
 function closePopup(){
   document.getElementById("popup").style.display="none";
   sessionStorage.setItem("joined","yes");
